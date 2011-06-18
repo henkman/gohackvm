@@ -1,0 +1,29 @@
+$gohackvm
+Usage of gohackvm:
+  -c="": code to be executed
+  -f="": file to be executed
+  -l=false: shall the stack be logged
+
+
+Interprets following "bytecodes":
+' ': Do nothing (used for readability purposes)
+'p': Print S0 as an integer
+'P': Print S0 as an ASCII character (only the least significant 7 bits of the value are used)
+'0'..'9': Push the value 0..9 on the stack
+'+', '-', '*', '/': Push S1+S0, S1-S0, S1*S0, S1/S0
+':': Push -1 if S1<S0, 0 if S1=S0, or 1 S1>S0
+'g': Add S0 to the program counter
+'?': Add S0 to the program counter if S1 is 0
+'c': Push the program counter on the call stack and set the program counter to S0
+'$': Set the program counter to the value popped from the call stack
+'<': Push the value of memory cell S0
+'>': Store S1 into memory cell S0
+'^': Push a copy of S<S0+1> (ex: 0^ duplicates S0)
+'v': Remove S<S0+1> from the stack and push it on top (ex: 1v swaps S0 and S1)
+'d': Drop S0
+'!': Terminate the program
+
+
+for more about hackvm see
+	http://progopedia.com/language/hack-vm/
+	http://www.hacker.org/hvm/
