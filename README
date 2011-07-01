@@ -1,8 +1,10 @@
-$gohackvm
-Usage of gohackvm:
+$ gohvm
+Usage of gohvm:
   -c="": code to be executed
-  -f="": file to be executed
+  -cf="": file containing code to be executed
   -l=false: shall the stack be logged
+  -m="": the initial memory (cell0,cell1,...)
+  -mf="": file containing initial memory (cell0,cell1,...)
 
 
 Interprets following "bytecodes":
