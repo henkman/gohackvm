@@ -1,6 +1,6 @@
 include $(GOROOT)/src/Make.inc
 
-TARG=gohackvm
+TARG=gohvm
 GOFILES=\
 	main.go\
 	gohackvm.go\

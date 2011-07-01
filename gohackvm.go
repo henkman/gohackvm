@@ -2,17 +2,29 @@ package main
 
 import (
 	"fmt"
+	"strings"
+	"strconv"
 )
 
-func RunProgramString(code string, logoperandstack bool) {
-	RunProgram([]byte(code), logoperandstack)
+func RunProgramString(code string, logoperandstack bool, initmems string) {
+	RunProgram([]byte(code), logoperandstack, initmems)
 }
 
-func RunProgram(code []byte, logoperandstack bool) {
+func RunProgram(code []byte, logoperandstack bool, initmems string) {
 	eip, oldeip := 0, 0
 	memory := NewRam(MEMORY_SIZE)
 	operandstack := NewStack(OPERANDSTACK_SIZE)
 	callstack := NewStack(CALLSTACK_SIZE)
+	
+	if initmems != "" {
+		initmem := strings.Split(initmems, ",", -1)
+		for i, s := range(initmem) {
+			m, err := strconv.Atoi(s)
+			if err == nil {		
+				memory.Set(i, m)
+			}
+		}
+	}
 	
 	var log []string
 	if logoperandstack {

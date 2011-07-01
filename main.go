@@ -11,30 +11,44 @@ const (
 	CALLSTACK_SIZE = 256
 )
 
-var _filename string
 var _logstack bool
 var _code string
+var _codefile string
+var _mem string
+var _memfile string
 
 func init() {
 	flag.BoolVar(&_logstack, "l", false, "shall the stack be logged")
-	flag.StringVar(&_filename, "f", "", "file to be executed")
 	flag.StringVar(&_code, "c", "", "code to be executed")
+	flag.StringVar(&_codefile, "cf", "", "file containing code to be executed")
+	flag.StringVar(&_mem, "m", "", "the initial memory (cell0,cell1,...)")
+	flag.StringVar(&_memfile, "mf", "", "file containing initial memory (cell0,cell1,...)")
 }
 
 func main() {
 	flag.Parse()
 	
+	if _memfile != "" {
+		m, err := ioutil.ReadFile(_memfile)
+		if err != nil {
+			println(err.String())
+			return
+		}
+		
+		_mem = string(m)
+	}
+	
 	switch {
 		case _code != "":
-			RunProgramString(_code, _logstack)
+			RunProgramString(_code, _logstack, _mem)
 			
-		case _filename != "":
-			code, err := ioutil.ReadFile(_filename)
+		case _codefile != "":
+			code, err := ioutil.ReadFile(_codefile)
 			if err != nil {
 				println(err.String())
 			}
 			
-			RunProgram(code, _logstack)
+			RunProgram(code, _logstack, _mem)
 			
 		default:
 			flag.Usage()
