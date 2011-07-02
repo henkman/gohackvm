@@ -46,6 +46,10 @@ func RunProgram(code []byte, logoperandstack bool, initmems string) {
     }()
 	
 	for eip < len(code) {
+		if eip < 0 || eip >= len(code) {
+			panic("eip out of code range")
+		}
+	
 		oldeip = eip
 		
 		bc := Bytecode(code[eip])
