@@ -46,6 +46,7 @@ func main() {
 			code, err := ioutil.ReadFile(_codefile)
 			if err != nil {
 				println(err.String())
+				return
 			}
 			
 			RunProgram(code, _logstack, _mem)
