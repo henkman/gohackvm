@@ -3,12 +3,7 @@ package main
 import (
 	"flag"
 	"io/ioutil"
-)
-
-const (
-	MEMORY_SIZE = 16384
-	OPERANDSTACK_SIZE = 256
-	CALLSTACK_SIZE = 256
+	"gohackvm"
 )
 
 var _logstack bool
@@ -40,7 +35,9 @@ func main() {
 	
 	switch {
 		case _code != "":
-			RunProgramString(_code, _logstack, _mem)
+			vm := gohackvm.NewHackVM(_logstack)
+			vm.SetInitialMemory(_mem)
+			vm.RunProgramString(_code)
 			
 		case _codefile != "":
 			code, err := ioutil.ReadFile(_codefile)
@@ -49,7 +46,9 @@ func main() {
 				return
 			}
 			
-			RunProgram(code, _logstack, _mem)
+			vm := gohackvm.NewHackVM(_logstack)
+			vm.SetInitialMemory(_mem)
+			vm.RunProgram(code)
 			
 		default:
 			flag.Usage()

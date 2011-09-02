@@ -1,11 +1,13 @@
-include $(GOROOT)/src/Make.inc
+PROGRAM = gohvm
 
-TARG=gohvm
-GOFILES=\
-	main.go\
-	gohackvm.go\
-	bytecodes.go\
-	ram.go\
-	stack.go\
-	
-include $(GOROOT)/src/Make.cmd
+ifeq "$(GOOS)" "windows"
+	OUTPUT = $(PROGRAM).exe
+else
+	OUTPUT = $(PROGRAM)
+endif
+
+$(OUTPUT):
+	gd . -o $(OUTPUT)
+clean:
+	gd . -clean
+	rm -f $(OUTPUT)
