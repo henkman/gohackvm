@@ -1,4 +1,10 @@
-$ gohvm
+$ gd . -o gohvm
+compiling: gohackvm
+compiling: main
+linking  : gohvm
+time used: 0.341s
+
+$ ./gohvm
 Usage of gohvm:
   -c="": code to be executed
   -cf="": file containing code to be executed
