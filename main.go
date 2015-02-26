@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
+	"github.com/papplampe/gohackvm/gohackvm"
 	"io/ioutil"
-	"gohackvm"
+	"log"
 )
 
 var _logstack bool
@@ -22,35 +23,27 @@ func init() {
 
 func main() {
 	flag.Parse()
-	
 	if _memfile != "" {
 		m, err := ioutil.ReadFile(_memfile)
 		if err != nil {
-			println(err.String())
-			return
+			log.Fatal(err)
 		}
-		
 		_mem = string(m)
 	}
-	
 	switch {
-		case _code != "":
-			vm := gohackvm.NewHackVM(_logstack)
-			vm.SetInitialMemory(_mem)
-			vm.RunProgramString(_code)
-			
-		case _codefile != "":
-			code, err := ioutil.ReadFile(_codefile)
-			if err != nil {
-				println(err.String())
-				return
-			}
-			
-			vm := gohackvm.NewHackVM(_logstack)
-			vm.SetInitialMemory(_mem)
-			vm.RunProgram(code)
-			
-		default:
-			flag.Usage()
+	case _code != "":
+		vm := gohackvm.NewHackVM(_logstack)
+		vm.SetInitialMemory(_mem)
+		vm.RunProgramString(_code)
+	case _codefile != "":
+		code, err := ioutil.ReadFile(_codefile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		vm := gohackvm.NewHackVM(_logstack)
+		vm.SetInitialMemory(_mem)
+		vm.RunProgram(code)
+	default:
+		flag.Usage()
 	}
 }
